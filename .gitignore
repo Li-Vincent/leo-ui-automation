@@ -1,0 +1,17 @@
+#eclipse files
+.classpath
+.project
+/.settings/
+
+# Java class files
+*.class
+
+# Generated files
+/bin/
+/gen/
+/out/
+/test-output/
+/target/
+
+# Log Files
+*.log
