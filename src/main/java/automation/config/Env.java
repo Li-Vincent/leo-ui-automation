@@ -2,6 +2,7 @@ package automation.config;
 
 public enum Env {
     // @formatter:off
+    // Env("url" or "ip")
     TEST("test"),
     PRE("pre-c"),
     SIT("pre-u"),

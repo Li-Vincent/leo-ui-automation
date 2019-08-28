@@ -3,16 +3,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>automation</groupId>
+	<groupId>leo-automation</groupId>
 	<artifactId>leo-ui-automation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>ui</name>
+	<name>leo-ui-automation</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<environment>PRE</environment>
+		<runId>1</runId>
+		<browser>firefox</browser>
 	</properties>
 
 	<build>
@@ -34,6 +37,11 @@
 					<suiteXmlFiles>
 						<suiteXmlFile>${xmlFileName}</suiteXmlFile>
 					</suiteXmlFiles>
+					<systemPropertyVariables>
+						<environment>${environment}</environment>
+						<runId>${runId}</runId>
+						<browser>${browser}</browser>
+					</systemPropertyVariables>
 					<properties>
 						<!-- Setting ReportNG listeners -->
 						<property>
@@ -95,7 +103,6 @@
 					<artifactId>spring</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -131,7 +138,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>1.5.9.RELEASE</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>
