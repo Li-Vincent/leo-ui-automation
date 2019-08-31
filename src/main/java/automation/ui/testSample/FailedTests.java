@@ -17,6 +17,8 @@ package automation.ui.testSample;
 
 import org.testng.annotations.Test;
 
+import automation.utils.ReportLogger;
+
 /**
  * Some test failures to be included in the sample output.
  * 
@@ -24,7 +26,7 @@ import org.testng.annotations.Test;
  */
 @Test(groups = "should-fail")
 public class FailedTests {
-    // private ReporterLogger LOGGER = new ReporterLogger(FailedTests.class);
+    private ReportLogger LOGGER = new ReportLogger(FailedTests.class);
 
     @Test
     public void assertionFailure() {
@@ -38,7 +40,7 @@ public class FailedTests {
 
     @Test
     public void assertionFailureWithOutput() {
-        // LOGGER.info("Here is some output from an unsuccessful test.");
+        LOGGER.info("Here is some output from an unsuccessful test.");
         assert false : "This test failed.";
     }
 

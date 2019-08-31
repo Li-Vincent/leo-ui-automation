@@ -20,13 +20,15 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Test;
 
+import automation.utils.ReportLogger;
+
 /**
  * Some successful tests to be included in the sample output.
  * 
  * @author Daniel Dyer
  */
 public class SuccessfulTests {
-//    private ReporterLogger LOGGER = new ReporterLogger(this.getClass());
+    private ReportLogger LOGGER = new ReportLogger(this.getClass());
 
     @Test
     public void test1() {
@@ -40,28 +42,28 @@ public class SuccessfulTests {
 
     @Test
     public void testWithOutput1() {
-//        LOGGER.info("Here is some output from a successful test.");
+        LOGGER.info("Here is some output from a successful test.");
         assert true;
     }
 
     @Test
     public void testWithMultiLineOutput1() {
-//        LOGGER.log("This is level log.");
-//        LOGGER.info("This is level info.");
-//        LOGGER.debug("This is level debug.");
-//        LOGGER.warn("This is level warn.");
-//        LOGGER.error("This is level error.");
-//        LOGGER.fatal("This is level fatal.");
-//        MongoCollection<Document> collection = MongoConn.getConnect(Env.TEST).getCollection("testColl");
-//        collection.find().forEach(printBlock);
+        LOGGER.log("This is level log.");
+        LOGGER.info("This is level info.");
+        LOGGER.debug("This is level debug.");
+        LOGGER.warn("This is level warn.");
+        LOGGER.error("This is level error.");
+        LOGGER.fatal("This is level fatal.");
+        // MongoCollection<Document> collection = MongoConn.getConnect(Env.TEST).getCollection("testColl");
+        // collection.find().forEach(printBlock);
         assert true;
     }
-//
-//    Block<Document> printBlock = new Block<Document>() {
-//        public void apply(final Document document) {
-//            System.out.println(document.toJson());
-//        }
-//    };
+    //
+    // Block<Document> printBlock = new Block<Document>() {
+    // public void apply(final Document document) {
+    // System.out.println(document.toJson());
+    // }
+    // };
 
     @AfterMethod
     public void afterMethod() {

@@ -8,8 +8,9 @@
 			class-name="org.uncommons.reportng.JUnitXMLReporter" />
 	</listeners>
 	<test name="Test" preserve-order="true">
-		<packages>
-			<package name="automation.ui.testSample" />
-		</packages>
+		<classes>
+			<class name="automation.ui.datafactory.JIRA_1">
+			</class>
+		</classes>
 	</test>
 </suite>

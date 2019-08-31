@@ -16,14 +16,16 @@ import automation.report.dao.AutoReportDao;
 import automation.report.dao.AutoReportImpl;
 import automation.utils.ConfUtils;
 
-public abstract class BaseTest {
+public class BaseTest {
     public WebDriver driver;
     public JavascriptExecutor js;
-    public String testName = "JIRA_1";
+    public String testName;
+    public String scenario;
     public String environment;
     public int runID;
-    public String browser = "";
+    public String browser;
     public String log = "";
+    public boolean useReportDB = true;
 
     private int testResult; // 5=Not Run; 0=Pass; 1=Fail; 4=Need Manual Check; 6=No Data
     private String testStartTime;
@@ -32,11 +34,23 @@ public abstract class BaseTest {
     private static AutoReportDao autoReportService;
     private SimpleDateFormat df = new SimpleDateFormat("MM/dd/YYYY HH:mm:ss");
 
+    public BaseTest(String testName) {
+        this.testName = testName;
+        this.scenario = "default";
+    }
+
+    public BaseTest(String testName, String scenario) {
+        this.testName = testName;
+        this.scenario = scenario;
+    }
+
     @BeforeClass(alwaysRun = true)
     public void setup() {
         this.environment = System.getProperty("environment");
         this.runID = Integer.parseInt(System.getProperty("runId"));
         this.browser = System.getProperty("browser");
+        this.useReportDB = System.getProperty("useReportDB").toLowerCase().contains("true")
+                || System.getProperty("useReportDB").toLowerCase().contains("yes");
         testStartTime = df.format(new Date());
     }
 
@@ -97,7 +111,8 @@ public abstract class BaseTest {
         }
         String sql = "UPDATE test_case SET " + "start_time = '" + testStartTime + "', end_time = '" + testEndTime
                 + "', test_result = " + testResult + ", test_log = '" + log + "', environment = '" + this.environment
-                + "' WHERE test_runid = " + this.runID + " and case_name = '" + this.testName + "'";
+                + "' WHERE test_runid = " + this.runID + " and case_name = '" + this.testName + "' and scenario = '"
+                + this.scenario + "'";
         autoReportService.update(sql);
         System.out.println("insert test result");
     }

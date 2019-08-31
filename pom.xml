@@ -15,7 +15,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<environment>PRE</environment>
 		<runId>1</runId>
-		<browser>firefox</browser>
+		<browser>chrome</browser>
+		<useReportDB>true</useReportDB>
 	</properties>
 
 	<build>
@@ -41,6 +42,7 @@
 						<environment>${environment}</environment>
 						<runId>${runId}</runId>
 						<browser>${browser}</browser>
+						<useReportDB>${useReportDB}</useReportDB>
 					</systemPropertyVariables>
 					<properties>
 						<!-- Setting ReportNG listeners -->

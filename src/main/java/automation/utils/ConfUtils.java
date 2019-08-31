@@ -21,6 +21,10 @@ public class ConfUtils {
         return Integer.parseInt(getConfigurations().getProperty("DefaultTimeout"));
     }
 
+    public static int getElementRetryTimes() {
+        return Integer.parseInt(getConfigurations().getProperty("ElementRetryTimes"));
+    }
+
     public static String getConf(String key) {
         return getConfigurations().getProperty(key);
     }
