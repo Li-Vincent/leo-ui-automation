@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class AutoReportImpl implements AutoReportDao {
@@ -31,11 +32,6 @@ public class AutoReportImpl implements AutoReportDao {
     // spring通过依赖注入自动给DAO装配dataSource
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
-    @Override
-    public boolean insertImage(String pic_id, byte[] in, String url, String startTime) {
-        return false;
     }
 
     @Override
@@ -72,5 +68,20 @@ public class AutoReportImpl implements AutoReportDao {
     @Override
     public void update(String sql, String log) {
         jdbcTemplate.update(sql, new Object[] { log }, new int[] { java.sql.Types.VARCHAR });
+    }
+
+    @Override
+    public boolean insertImage(String pic_id, byte[] in, String url, String createTime) {
+        boolean flag = false;
+        try {
+            String insertPicture = "INSERT INTO screenshot_db (`picture_id`, `picture_long`, `url`, `create_time`) VALUES (?,?,?,?);";
+            jdbcTemplate.update(insertPicture, new Object[] { pic_id, in, url, createTime }, new int[] {
+                    java.sql.Types.VARCHAR, java.sql.Types.BLOB, java.sql.Types.VARCHAR, java.sql.Types.VARCHAR });
+        } catch (DataAccessException e) {
+            flag = true;
+            e.printStackTrace();
+        }
+
+        return flag;
     }
 }

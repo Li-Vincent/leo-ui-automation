@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeClass;
 
 import automation.report.dao.AutoReportDao;
 import automation.report.dao.AutoReportImpl;
+import automation.ui.common.ScreenShot;
 import automation.utils.ConfUtils;
 
 public class BaseTest {
@@ -49,8 +50,7 @@ public class BaseTest {
         this.environment = System.getProperty("environment");
         this.runID = Integer.parseInt(System.getProperty("runId"));
         this.browser = System.getProperty("browser");
-        this.useReportDB = System.getProperty("useReportDB").toLowerCase().contains("true")
-                || System.getProperty("useReportDB").toLowerCase().contains("yes");
+        this.useReportDB = ConfUtils.useReportDB();
         testStartTime = df.format(new Date());
     }
 
@@ -95,6 +95,7 @@ public class BaseTest {
     @AfterClass(alwaysRun = true)
     public void close() {
         testEndTime = df.format(new Date());
+        pictureId = ScreenShot.takeScreenShot(driver, testStartTime);
         insertResult();
 
         if (driver != null) {

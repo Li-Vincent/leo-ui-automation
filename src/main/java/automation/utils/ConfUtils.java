@@ -28,4 +28,9 @@ public class ConfUtils {
     public static String getConf(String key) {
         return getConfigurations().getProperty(key);
     }
+
+    public static boolean useReportDB() {
+        return System.getProperty("useReportDB").toLowerCase().contains("true")
+                || System.getProperty("useReportDB").toLowerCase().contains("yes");
+    }
 }

@@ -29,8 +29,6 @@ public class Jira1Test extends BaseTest {
         System.out.println(terms.isSelected());
         UIController.tick(driver, terms, false);
 
-        InputStream iStream = ScreenShot.takeScreenShot(driver);
-        ScreenShot.streamToFile(iStream);
         WebElement firstElement = driver.findElement(By.xpath("/html/body/div[3]/div[2]/div[1]/div[1]/div[1]"));
         System.out.println(firstElement.getText());
         System.out.println(((WebElement) UIController.getNextElement(driver, firstElement)).getText());

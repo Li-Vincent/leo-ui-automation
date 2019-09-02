@@ -12,9 +12,9 @@ public interface AutoReportDao {
 
     public void update(String sql, String log);
 
-    public boolean insertImage(String pic_id, byte[] in, String url, String startTime);
-
     public Object[][] getFurtherCheckData();
 
     public List<String> getCaseList();
+
+    public boolean insertImage(String pic_id, byte[] in, String url, String createTime);
 }
