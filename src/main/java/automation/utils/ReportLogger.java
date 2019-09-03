@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Reporter;
 
@@ -22,68 +23,85 @@ public class ReportLogger {
     }
 
     public void log(String message) {
-        logger.info(message);
         message = getLogTag() + message;
-        Reporter.log(message);
+        logger.info(message);
+        Reporter.log(addTimeTag(message));
     }
 
-    public static void logStepToDB(int Step, Object message, String store, String testName) {
-        if (logToDB.get(store + testName) == null) {
-            logToDB.put(store + testName, "Step " + String.valueOf(Step) + ": " + message + "\n");
+    public static void logStepToDB(int Step, Object message, String testName, String scenario) {
+        if (logToDB.get(scenario + testName) == null) {
+            logToDB.put(scenario + testName, "Step " + String.valueOf(Step) + ": " + message + "\n");
         } else {
-            logToDB.put(store + testName,
-                    logToDB.get(store + testName) + "Step " + String.valueOf(Step) + ": " + message + "\n");
+            logToDB.put(scenario + testName,
+                    logToDB.get(scenario + testName) + "Step " + String.valueOf(Step) + ": " + message + "\n");
         }
         logger.info("Step " + String.valueOf(Step) + ": " + message + "\n");
     }
 
     public void info(String message) {
-        logger.info(message);
         message = getLogTag() + message;
-        Reporter.log(message, 6);
+        logger.info(message);
+        Reporter.log(addTimeTag(message));
     }
 
     public void debug(String message) {
-        logger.debug(message);
         message = getLogTag() + message;
-        Reporter.log(message, 7);
+        logger.debug(message);
+        Reporter.log(addTimeTag(message), 7);
     }
 
     public void warn(String message) {
-        logger.warn(message);
         message = getLogTag() + message;
-        Reporter.log(message, 4);
+        logger.warn(message);
+        Reporter.log(addTimeTag(message), 4);
     }
 
     public void error(String message) {
-        logger.error(message);
         message = getLogTag() + message;
-        Reporter.log(message, 3);
+        logger.error(message);
+        Reporter.log(addTimeTag(message), 3);
     }
 
     public void fatal(String message) {
-        logger.error(message);
         message = getLogTag() + message;
-        Reporter.log(message, 0);
+        logger.fatal(message);
+        Reporter.log(addTimeTag(message), 0);
+    }
+
+    public void setTestStep(String message) {
+        String logTag = getLogTag();
+        // add asterisk before and after the message and the whole line will compose of 100 characters
+        int asterisk = (100 - logTag.length() - message.length()) / 2;
+        String msg = StringUtils.repeat("*", asterisk) + message
+                + StringUtils.repeat("*", asterisk + ((100 - message.length()) % 2));
+        msg = logTag + msg;
+        logger.info(msg);
+        Reporter.log(addTimeTag(msg), 6);
     }
 
     // 根据堆栈信息，拿到调用类的名称、方法名、行号
-    public String getLogTag() {
+    private String getLogTag() {
         String logTag = "";
-        Long timeStamp = System.currentTimeMillis();
-        String dateString = timestampToDate(timeStamp);
+
         StackTraceElement stack[] = (new Throwable()).getStackTrace();
         for (int i = 0; i < stack.length; i++) {
             StackTraceElement s = stack[i];
             if (s.getClassName().equals(className)) {
-                logTag = "[" + dateString + "]" + "[" + classNameDeal(s.getClassName()) + ":" + s.getLineNumber() + "]";
+                logTag = "[" + classNameDeal(s.getClassName()) + ":" + s.getMethodName() + ":" + s.getLineNumber()
+                        + "] ";
             }
         }
         return logTag;
     }
 
+    private String addTimeTag(String message) {
+        Long timeStamp = System.currentTimeMillis();
+        String dateString = timestampToDate(timeStamp);
+        return "[" + dateString + "]" + message;
+    }
+
     // 时间戳转date字符串
-    public static String timestampToDate(Long timestamp) {
+    private String timestampToDate(Long timestamp) {
         if (timestamp.toString().length() < 13) {
             timestamp = Long.valueOf(timestamp.toString().substring(0, 10) + "000");
         }
@@ -98,4 +116,5 @@ public class ReportLogger {
         String[] className = allName.split("\\.");
         return className[className.length - 1];
     }
+
 }
