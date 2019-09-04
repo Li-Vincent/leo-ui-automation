@@ -4,12 +4,12 @@
 	verbose="0">
 	<listeners>
 		<listener class-name="org.uncommons.reportng.HTMLReporter" />
-		<listener
-			class-name="org.uncommons.reportng.JUnitXMLReporter" />
+		<listener class-name="automation.listener.RetryListener" />
+		<listener class-name="automation.listener.TestNGListener" />
 	</listeners>
 	<test name="Test" preserve-order="true">
 		<classes>
-			<class name="automation.ui.datafactory.JIRA_1">
+			<class name="automation.ui.datafactory.Rerun">
 			</class>
 		</classes>
 	</test>

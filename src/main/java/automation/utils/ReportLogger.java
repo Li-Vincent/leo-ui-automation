@@ -84,11 +84,13 @@ public class ReportLogger {
         String logTag = "";
 
         StackTraceElement stack[] = (new Throwable()).getStackTrace();
+        // StackTraceElement stack[] = Thread.currentThread().getStackTrace();
         for (int i = 0; i < stack.length; i++) {
             StackTraceElement s = stack[i];
             if (s.getClassName().equals(className)) {
                 logTag = "[" + classNameDeal(s.getClassName()) + ":" + s.getMethodName() + ":" + s.getLineNumber()
                         + "] ";
+                return logTag;
             }
         }
         return logTag;

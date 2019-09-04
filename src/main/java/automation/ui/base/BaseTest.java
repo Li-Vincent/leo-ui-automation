@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
@@ -23,7 +24,7 @@ import automation.utils.ConfUtils;
 import automation.utils.ReportLogger;
 
 public abstract class BaseTest {
-    private ReportLogger LOG = new ReportLogger(this.getClass());
+    private ReportLogger logger = new ReportLogger(BaseTest.class);
 
     public WebDriver driver;
     public JavascriptExecutor js;
@@ -55,12 +56,12 @@ public abstract class BaseTest {
 
     @BeforeSuite
     public void beforeSuite(ITestContext context) throws Exception {
-        LOG.setTestStep("@BeforeSuite");
+        logger.setTestStep("@BeforeSuite");
     }
 
     @BeforeClass(alwaysRun = true)
     public void setup() {
-        LOG.setTestStep("@BeforeClass");
+        logger.setTestStep("@BeforeClass");
         this.environment = System.getProperty("environment");
         this.runID = Integer.parseInt(System.getProperty("runId"));
         this.browser = System.getProperty("browser");
@@ -69,7 +70,7 @@ public abstract class BaseTest {
     }
 
     public void setupBrowser() {
-        LOG.setTestStep("setupBrowser");
+        logger.setTestStep("setupBrowser");
         if (driver != null) {
             try {
                 driver.quit();
@@ -109,27 +110,21 @@ public abstract class BaseTest {
 
     @AfterClass(alwaysRun = true)
     public void onClose() {
-        LOG.setTestStep("@AfterClass");
+        logger.setTestStep("@AfterClass");
         testEndTime = df.format(new Date());
         if (useReportDB) {
             insertResultToDB();
         }
-
-        if (driver != null) {
-            try {
-                driver.quit();
-            } catch (Exception e) {
-                LOG.error("WebDriver has a trouble");
-            }
-        }
+        closeBrowser();
     }
 
     @AfterSuite
     public void afterSuite(ITestContext context) throws Exception {
-        LOG.setTestStep("@AfterSuite");
+        logger.setTestStep("@AfterSuite");
     }
 
     private void insertResultToDB() {
+        logger.info("Insert Test Result to DB");
         if (autoReportService == null) {
             autoReportService = AutoReportImpl.createInstance(ConfUtils.getConf(this.environment));
         }
@@ -141,26 +136,24 @@ public abstract class BaseTest {
     }
 
     protected void allTestStep(ITestContext context) {
-        LOG.info("onPreCondition");
+        logger.info("onPreCondition");
         if (onPreCondition().failed()) {
-            LOG.info("onError");
             onError(context);
             this.testResult = Result.SKIP.val();
             throw new SkipException("PRECONDITION FAILURE");
         }
-        LOG.info("onTest");
+        logger.info("onTest");
         if (onTest().failed()) {
             this.testResult = Result.FAIL.val();
-            LOG.error("TEST FAILED");
-            LOG.info("onError");
+            logger.error("TEST FAILED");
             onError(context);
             return;
         }
-        LOG.info("onPostCondition");
+        logger.info("onPostCondition");
         if (onPostCondition().failed()) {
-            LOG.warn("onPostCondition FAILED");
+            logger.warn("onPostCondition FAILED");
         }
-        LOG.info("TEST PASSED");
+        logger.info("TEST PASSED");
         this.testResult = Result.PASS.val();
     }
 
@@ -170,18 +163,27 @@ public abstract class BaseTest {
 
     protected abstract Result onPostCondition();
 
-    protected void onError(ITestContext ctx) {
+    protected void onError(ITestContext context) {
+        logger.info("ON ERROR");
         if (inRerunFlag) {
             if (driver != null) {
                 pictureId = ScreenShot.takeScreenShot(driver, testStartTime);
-                LOG.info("ScreenShot PictureId is " + pictureId);
-                try {
-                    driver.quit();
-                } catch (Exception e) {
-                    LOG.error("WebDriver has a trouble");
-                }
+                logger.info("ScreenShot PictureId is " + pictureId);
             }
         }
-
+        closeBrowser();
+        context.setAttribute("rerunScenario", this.testName + "-" + this.scenario);
+        Assert.fail("onError - Rerun");
     };
+
+    protected void closeBrowser() {
+        if (driver != null) {
+            try {
+                driver.manage().deleteAllCookies();
+                driver.quit();
+            } catch (Exception e) {
+                logger.error("WebDriver has a trouble");
+            }
+        }
+    }
 }
