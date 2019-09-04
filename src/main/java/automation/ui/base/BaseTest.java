@@ -11,7 +11,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.Assert;
 import org.testng.ITestContext;
-import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
@@ -35,7 +34,7 @@ public abstract class BaseTest {
     public String environment;
     public int runID;
     public String browser;
-    public String log = "";
+    public String logToDB = "";
     public boolean useReportDB = true;
 
     private int testResult; // 5=Not Run; 0=Pass; 1=Fail; 4=Need Manual Check; 6=No Data
@@ -98,15 +97,15 @@ public abstract class BaseTest {
                 driver = new ChromeDriver();
             }
         }
-        driver.manage().timeouts().pageLoadTimeout(ConfUtils.getDefaultTimeout(), TimeUnit.SECONDS);
-        driver.manage().timeouts().implicitlyWait(ConfUtils.getDefaultTimeout(), TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(ConfUtils.getDefaultPageTimeout(), TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(ConfUtils.getDefaultElementTimeout(), TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
     }
 
     public void prepareTest() {
         testResult = Result.NOTRUN.val();
-        log = "";
+        logToDB = "";
         setupBrowser();
     }
 
@@ -115,6 +114,7 @@ public abstract class BaseTest {
         logger.setTestStep("@AfterClass");
         testEndTime = df.format(new Date());
         if (useReportDB) {
+            logToDB = ReportLogger.logToDBMap.get(testName + "-" + scenario);
             insertResultToDB();
         }
         closeBrowser();
@@ -126,20 +126,20 @@ public abstract class BaseTest {
     }
 
     private void insertResultToDB() {
-        logger.info("Insert Test Result to DB");
+        logger.setTestStep("Insert Test Result to DB");
         if (autoReportService == null) {
             autoReportService = AutoReportImpl.createInstance(ConfUtils.getConf(this.environment));
         }
         String sql = "UPDATE test_case SET " + "start_time = '" + testStartTime + "', end_time = '" + testEndTime
-                + "', test_result = " + testResult + ", test_log = '" + log + "', environment = '" + this.environment
-                + "' WHERE test_runid = " + this.runID + " and case_name = '" + this.testName + "' and scenario = '"
-                + this.scenario + "'";
+                + "', test_result = " + testResult + ", test_log = '" + logToDB + "', environment = '"
+                + this.environment + "' WHERE test_runid = " + this.runID + " and case_name = '" + this.testName
+                + "' and scenario = '" + this.scenario + "'";
         autoReportService.update(sql);
     }
 
     protected void allTestStep(ITestContext context) {
-        ITestResult result = Reporter.getCurrentTestResult();
-        result.setAttribute("testScenario", testName + "-" + scenario);
+        // Set UniqueTestKey to ITestResult.
+        Reporter.getCurrentTestResult().setAttribute(ConfUtils.getUniqueTestKey(), testName + "-" + scenario);
         logger.info("onPreCondition");
         if (onPreCondition().failed()) {
             onError(context);
@@ -170,8 +170,7 @@ public abstract class BaseTest {
             }
         }
         closeBrowser();
-        context.setAttribute("rerunScenario", this.testName + "-" + this.scenario);
-        Assert.fail("onError - Rerun");
+        Assert.fail("onError - Trigger Rerun");
     };
 
     protected void closeBrowser() {

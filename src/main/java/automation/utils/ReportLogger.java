@@ -2,18 +2,16 @@ package automation.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Reporter;
 
 public class ReportLogger {
-    public static Map<String, String> logToDB = new HashMap<String, String>();
-    /**
-     * Report Verbose Level OFF = 0, FATAL = 0, ERROR = 3, WARN = 4, DEBUG = 6, INFO = 7, TRACE = 7, ALL = 10
-     */
+    public static Map<String, String> logToDBMap = new ConcurrentHashMap<String, String>();
+
     private String className;
     private static Logger logger;
 
@@ -26,19 +24,29 @@ public class ReportLogger {
         message = getLogTag() + message;
         logger.info(message);
         Reporter.log(addTimeTag(message));
+        logToDB(addTimeTag(message));
     }
 
-    public static void logStepToDB(int Step, Object message, String testName, String scenario) {
-        if (logToDB.get(scenario + testName) == null) {
-            logToDB.put(scenario + testName, "Step " + String.valueOf(Step) + ": " + message + "\n");
-        } else {
-            logToDB.put(scenario + testName,
-                    logToDB.get(scenario + testName) + "Step " + String.valueOf(Step) + ": " + message + "\n");
+    private void logToDB(String message) {
+        if (ConfUtils.useReportDB()) {
+            String currentTestKey = Reporter.getCurrentTestResult().getAttribute(ConfUtils.getUniqueTestKey())
+                    .toString();
+            if (!logToDBMap.containsKey(currentTestKey)) {
+                logToDBMap.put(currentTestKey, message + "\n");
+            } else {
+                logToDBMap.put(currentTestKey, logToDBMap.get(currentTestKey) + message + "\n");
+            }
         }
-        logger.info("Step " + String.valueOf(Step) + ": " + message + "\n");
     }
 
     public void info(String message) {
+        message = getLogTag() + message;
+        logger.info(message);
+        Reporter.log(addTimeTag(message));
+        logToDB(addTimeTag(message));
+    }
+
+    public void logNotToDB(String message) {
         message = getLogTag() + message;
         logger.info(message);
         Reporter.log(addTimeTag(message));
@@ -48,24 +56,28 @@ public class ReportLogger {
         message = getLogTag() + message;
         logger.debug(message);
         Reporter.log(addTimeTag(message), LogLevel.DEBUG.val());
+        logToDB(addTimeTag(message));
     }
 
     public void warn(String message) {
         message = getLogTag() + message;
         logger.warn(message);
         Reporter.log(addTimeTag(message), LogLevel.WARN.val());
+        logToDB(addTimeTag(message));
     }
 
     public void error(String message) {
         message = getLogTag() + message;
         logger.error(message);
         Reporter.log(addTimeTag(message), LogLevel.ERROR.val());
+        logToDB(addTimeTag(message));
     }
 
     public void fatal(String message) {
         message = getLogTag() + message;
         logger.fatal(message);
         Reporter.log(addTimeTag(message), LogLevel.FATAL.val());
+        logToDB(addTimeTag(message));
     }
 
     public void setTestStep(String message) {
@@ -76,7 +88,7 @@ public class ReportLogger {
                 + StringUtils.repeat("*", asterisk + ((100 - message.length()) % 2));
         msg = logTag + msg;
         logger.info(msg);
-        Reporter.log(addTimeTag(msg), 6);
+        Reporter.log(addTimeTag(msg), LogLevel.INFO.val());
     }
 
     // 根据堆栈信息，拿到调用类的名称、方法名、行号
@@ -87,8 +99,9 @@ public class ReportLogger {
         // StackTraceElement stack[] = Thread.currentThread().getStackTrace();
         for (int i = 0; i < stack.length; i++) {
             StackTraceElement s = stack[i];
+
             if (s.getClassName().equals(className)) {
-                logTag = "[" + classNameDeal(s.getClassName()) + ":" + s.getMethodName() + ":" + s.getLineNumber()
+                logTag = "[" + getSimpleClassName(s.getClassName()) + ":" + s.getMethodName() + ":" + s.getLineNumber()
                         + "] ";
                 return logTag;
             }
@@ -114,7 +127,7 @@ public class ReportLogger {
     }
 
     // 去掉包名，只保留类名
-    private String classNameDeal(String allName) {
+    private String getSimpleClassName(String allName) {
         String[] className = allName.split("\\.");
         return className[className.length - 1];
     }

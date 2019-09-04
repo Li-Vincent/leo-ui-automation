@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
+import automation.utils.ConfUtils;
 import automation.utils.ReportLogger;
 
 public class TestNGRetry implements IRetryAnalyzer {
@@ -16,7 +17,7 @@ public class TestNGRetry implements IRetryAnalyzer {
 
     @Override
     synchronized public boolean retry(ITestResult result) {
-        String rerunScenario = result.getTestContext().getAttribute("rerunScenario").toString();
+        String rerunScenario = result.getAttribute(ConfUtils.getUniqueTestKey()).toString();
         if (!rerunScenarioMap.containsKey(rerunScenario)) {
             rerunScenarioMap.put(rerunScenario, 1);
         }
@@ -24,6 +25,10 @@ public class TestNGRetry implements IRetryAnalyzer {
         if (currentTimes < maxRetryCount) {
             logger.setTestStep("Rerun Test - " + rerunScenario + " - Times:" + currentTimes);
             rerunScenarioMap.put(rerunScenario, currentTimes + 1);
+            // Remove repeated logToDB.
+            if (ConfUtils.useReportDB()) {
+                ReportLogger.logToDBMap.remove(result.getAttribute(ConfUtils.getUniqueTestKey()).toString());
+            }
             return true;
         }
         logger.setTestStep("Rerun Test - " + rerunScenario + " - Times:" + currentTimes);

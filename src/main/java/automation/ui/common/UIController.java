@@ -58,7 +58,7 @@ public class UIController {
 
     public static boolean click(WebDriver driver, WebElement element) {
         try {
-            new WebDriverWait(driver, ConfUtils.getDefaultTimeout())
+            new WebDriverWait(driver, ConfUtils.getDefaultElementTimeout())
                     .until(ExpectedConditions.elementToBeClickable(element));
             element.click();
             return true;
@@ -145,7 +145,7 @@ public class UIController {
      * @author Vincent-Li
      */
     public static void waitElementVisible(WebDriver driver, WebElement element) throws InterruptedException {
-        new WebDriverWait(driver, ConfUtils.getDefaultTimeout()).until(ExpectedConditions.visibilityOf(element));
+        new WebDriverWait(driver, ConfUtils.getDefaultElementTimeout()).until(ExpectedConditions.visibilityOf(element));
     }
 
     public static void waitAlertPresent(WebDriver driver, int timeoutInSecond) {
@@ -160,7 +160,7 @@ public class UIController {
         } catch (NoSuchElementException e) {
             return false;
         } finally {
-            driver.manage().timeouts().implicitlyWait(ConfUtils.getDefaultTimeout(), TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(ConfUtils.getDefaultElementTimeout(), TimeUnit.SECONDS);
         }
     }
 
@@ -172,7 +172,7 @@ public class UIController {
         } catch (NoSuchElementException e) {
             return false;
         } finally {
-            driver.manage().timeouts().implicitlyWait(ConfUtils.getDefaultTimeout(), TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(ConfUtils.getDefaultElementTimeout(), TimeUnit.SECONDS);
         }
     }
 

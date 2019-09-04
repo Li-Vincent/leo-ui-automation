@@ -17,12 +17,20 @@ public class ConfUtils {
         return properties;
     }
 
-    public static int getDefaultTimeout() {
-        return Integer.parseInt(getConfigurations().getProperty("DefaultTimeout"));
+    public static int getDefaultPageTimeout() {
+        return Integer.parseInt(getConfigurations().getProperty("DefaultPageTimeout"));
     }
 
-    public static int getElementRetryTimes() {
-        return Integer.parseInt(getConfigurations().getProperty("ElementRetryTimes"));
+    public static int getDefaultElementTimeout() {
+        return Integer.parseInt(getConfigurations().getProperty("DefaultElementTimeout"));
+    }
+
+    public static int getMaxRerunTimes() {
+        return Integer.parseInt(getConfigurations().getProperty("MaxRerunTimes"));
+    }
+
+    public static String getUniqueTestKey() {
+        return getConfigurations().getProperty("UniqueTestKey");
     }
 
     public static String getConf(String key) {
@@ -33,4 +41,5 @@ public class ConfUtils {
         return System.getProperty("useReportDB").toLowerCase().contains("true")
                 || System.getProperty("useReportDB").toLowerCase().contains("yes");
     }
+
 }

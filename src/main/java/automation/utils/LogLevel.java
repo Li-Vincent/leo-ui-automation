@@ -1,5 +1,10 @@
 package automation.utils;
 
+/**
+ * Report Verbose Level
+ * 
+ * @author Vincent-Li
+ */
 public enum LogLevel {
  // @formatter:off
     FATAL(1),
