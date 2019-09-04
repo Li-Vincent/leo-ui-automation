@@ -5,7 +5,7 @@
 	<listeners>
 		<listener class-name="org.uncommons.reportng.HTMLReporter" />
 		<listener class-name="automation.listener.RetryListener" />
-		<listener class-name="automation.listener.TestNGListener" />
+		<listener class-name="automation.listener.TestResultListener" />
 	</listeners>
 	<test name="Test" preserve-order="true">
 		<classes>

@@ -11,6 +11,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.Assert;
 import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
@@ -136,6 +138,8 @@ public abstract class BaseTest {
     }
 
     protected void allTestStep(ITestContext context) {
+        ITestResult result = Reporter.getCurrentTestResult();
+        result.setAttribute("testScenario", testName + "-" + scenario);
         logger.info("onPreCondition");
         if (onPreCondition().failed()) {
             onError(context);
@@ -156,12 +160,6 @@ public abstract class BaseTest {
         logger.info("TEST PASSED");
         this.testResult = Result.PASS.val();
     }
-
-    protected abstract Result onPreCondition();
-
-    protected abstract Result onTest();
-
-    protected abstract Result onPostCondition();
 
     protected void onError(ITestContext context) {
         logger.info("ON ERROR");
@@ -186,4 +184,11 @@ public abstract class BaseTest {
             }
         }
     }
+
+    protected abstract Result onPreCondition();
+
+    protected abstract Result onTest();
+
+    protected abstract Result onPostCondition();
+
 }

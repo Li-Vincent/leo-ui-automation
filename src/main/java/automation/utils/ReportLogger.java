@@ -47,25 +47,25 @@ public class ReportLogger {
     public void debug(String message) {
         message = getLogTag() + message;
         logger.debug(message);
-        Reporter.log(addTimeTag(message), 7);
+        Reporter.log(addTimeTag(message), LogLevel.DEBUG.val());
     }
 
     public void warn(String message) {
         message = getLogTag() + message;
         logger.warn(message);
-        Reporter.log(addTimeTag(message), 4);
+        Reporter.log(addTimeTag(message), LogLevel.WARN.val());
     }
 
     public void error(String message) {
         message = getLogTag() + message;
         logger.error(message);
-        Reporter.log(addTimeTag(message), 3);
+        Reporter.log(addTimeTag(message), LogLevel.ERROR.val());
     }
 
     public void fatal(String message) {
         message = getLogTag() + message;
         logger.fatal(message);
-        Reporter.log(addTimeTag(message), 0);
+        Reporter.log(addTimeTag(message), LogLevel.FATAL.val());
     }
 
     public void setTestStep(String message) {

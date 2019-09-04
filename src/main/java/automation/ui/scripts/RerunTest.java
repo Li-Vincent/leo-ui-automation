@@ -14,7 +14,7 @@ public class RerunTest extends BaseTest {
         super("RerunTest", scenario);
     }
 
-    @Test(enabled = true, alwaysRun = true)
+    @Test(enabled = true)
     public void Rerun(ITestContext context) {
         allTestStep(context);
     }

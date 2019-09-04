@@ -15,7 +15,7 @@ public class TestNGRetry implements IRetryAnalyzer {
     private static int maxRetryCount = 3; // 控制失败跑几次
 
     @Override
-    public boolean retry(ITestResult result) {
+    synchronized public boolean retry(ITestResult result) {
         String rerunScenario = result.getTestContext().getAttribute("rerunScenario").toString();
         if (!rerunScenarioMap.containsKey(rerunScenario)) {
             rerunScenarioMap.put(rerunScenario, 1);
