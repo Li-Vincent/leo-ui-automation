@@ -9,6 +9,11 @@ import org.testng.ITestResult;
 import automation.utils.ConfUtils;
 import automation.utils.ReportLogger;
 
+/**
+ * Customize RetryAnalyzer
+ * 
+ * @author Vincent-Li
+ */
 public class TestNGRetry implements IRetryAnalyzer {
     private ReportLogger logger = new ReportLogger(this.getClass());
 

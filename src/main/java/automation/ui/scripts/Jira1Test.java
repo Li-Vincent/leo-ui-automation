@@ -31,7 +31,7 @@ public class Jira1Test extends BaseTest {
         driver.get("https://ssl.zc.qq.com/v3/index-chs.html");
 
         WebElement terms = driver.findElement(By.id("agree"));
-        WebElement submit = driver.findElement(By.id("get_acc"));
+        WebElement submit = driver.findElement(By.id("get_acc" + "testerror"));
         UIController.click(driver, submit);
         System.out.println(terms.isSelected());
         UIController.tick(driver, terms, false);

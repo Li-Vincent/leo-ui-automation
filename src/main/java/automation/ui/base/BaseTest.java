@@ -35,13 +35,11 @@ public abstract class BaseTest {
     public int runID;
     public String browser;
     public String logToDB = "";
-    public boolean useReportDB = true;
 
     private int testResult; // 5=Not Run; 0=Pass; 1=Fail; 4=Need Manual Check; 6=No Data
     private String testStartTime;
     private String testEndTime;
     private String pictureId = "";
-    private boolean inRerunFlag = false;
     private static AutoReportDao autoReportService;
     private SimpleDateFormat df = new SimpleDateFormat("MM/dd/YYYY HH:mm:ss");
 
@@ -66,7 +64,6 @@ public abstract class BaseTest {
         this.environment = System.getProperty("environment");
         this.runID = Integer.parseInt(System.getProperty("runId"));
         this.browser = System.getProperty("browser");
-        this.useReportDB = ConfUtils.useReportDB();
         testStartTime = df.format(new Date());
     }
 
@@ -113,7 +110,7 @@ public abstract class BaseTest {
     public void onClose() {
         logger.setTestStep("@AfterClass");
         testEndTime = df.format(new Date());
-        if (useReportDB) {
+        if (ConfUtils.useReportDB()) {
             logToDB = ReportLogger.logToDBMap.get(testName + "-" + scenario);
             insertResultToDB();
         }
@@ -140,6 +137,7 @@ public abstract class BaseTest {
     protected void allTestStep(ITestContext context) {
         // Set UniqueTestKey to ITestResult.
         Reporter.getCurrentTestResult().setAttribute(ConfUtils.getUniqueTestKey(), testName + "-" + scenario);
+        logger.info("Start to run test: " + testName + " - " + scenario);
         logger.info("onPreCondition");
         if (onPreCondition().failed()) {
             onError(context);
@@ -163,11 +161,9 @@ public abstract class BaseTest {
 
     protected void onError(ITestContext context) {
         logger.info("ON ERROR");
-        if (inRerunFlag) {
-            if (driver != null) {
-                pictureId = ScreenShot.takeScreenShot(driver, testStartTime);
-                logger.info("ScreenShot PictureId is " + pictureId);
-            }
+        if (driver != null) {
+            pictureId = ScreenShot.takeScreenShot(driver, testStartTime);
+            logger.info("ScreenShot PictureId is " + pictureId);
         }
         closeBrowser();
         Assert.fail("onError - Trigger Rerun");

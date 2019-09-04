@@ -88,7 +88,7 @@ public class ReportLogger {
                 + StringUtils.repeat("*", asterisk + ((100 - message.length()) % 2));
         msg = logTag + msg;
         logger.info(msg);
-        Reporter.log(addTimeTag(msg), LogLevel.INFO.val());
+        // Reporter.log(addTimeTag(msg), LogLevel.INFO.val());
     }
 
     // 根据堆栈信息，拿到调用类的名称、方法名、行号
@@ -120,7 +120,7 @@ public class ReportLogger {
         if (timestamp.toString().length() < 13) {
             timestamp = Long.valueOf(timestamp.toString().substring(0, 10) + "000");
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss.SSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         Date date = new Date(timestamp);
         String dateStr = sdf.format(date);
         return dateStr;

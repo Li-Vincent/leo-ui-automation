@@ -20,15 +20,17 @@ public class RerunTest extends BaseTest {
     }
 
     protected Result onPreCondition() {
+        logger.info("Test onPreCondition");
         return Result.PASS;
     }
 
     protected Result onTest() {
-        logger.info("Test Rerun");
+        logger.info("Test onTest");
         return Result.FAIL;
     }
 
     protected Result onPostCondition() {
+        logger.info("Test onPostCondition");
         return Result.PASS;
     }
 }
