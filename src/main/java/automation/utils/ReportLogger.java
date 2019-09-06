@@ -1,5 +1,7 @@
 package automation.utils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -71,6 +73,20 @@ public class ReportLogger {
         logger.error(message);
         Reporter.log(addTimeTag(message), LogLevel.ERROR.val());
         logToDB(addTimeTag(message));
+    }
+
+    public void error(String message, Exception e) {
+        String msg = message;
+        if (e instanceof Exception) {
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            msg += " Reason:" + sw.toString();
+        } else {
+            msg += " Reason:" + e.getMessage();
+        }
+        // message = getLogTag() + message;
+        logger.error(message, e);
+        logToDB(msg);
     }
 
     public void fatal(String message) {

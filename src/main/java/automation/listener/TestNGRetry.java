@@ -18,7 +18,7 @@ public class TestNGRetry implements IRetryAnalyzer {
     private ReportLogger logger = new ReportLogger(this.getClass());
 
     private Map<String, Integer> rerunScenarioMap = new ConcurrentHashMap<String, Integer>();
-    private static int maxRetryCount = 3; // 控制失败跑几次
+    private static int maxRetryCount = ConfUtils.getMaxRerunTimes(); // 控制失败跑几次
 
     @Override
     synchronized public boolean retry(ITestResult result) {

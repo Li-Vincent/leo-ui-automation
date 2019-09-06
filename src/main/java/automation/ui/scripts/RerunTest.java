@@ -15,7 +15,7 @@ public class RerunTest extends BaseTest {
     }
 
     @Test(enabled = true)
-    public void Rerun(ITestContext context) {
+    public void Rerun(ITestContext context) throws Exception {
         allTestStep(context);
     }
 

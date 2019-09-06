@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.SkipException;
@@ -27,7 +26,7 @@ import automation.utils.ReportLogger;
 public abstract class BaseTest {
     private ReportLogger logger = new ReportLogger(BaseTest.class);
 
-    public WebDriver driver;
+    public WebDriver driver = null;
     public JavascriptExecutor js;
     public String testName;
     public String scenario;
@@ -114,7 +113,6 @@ public abstract class BaseTest {
             logToDB = ReportLogger.logToDBMap.get(testName + "-" + scenario);
             insertResultToDB();
         }
-        closeBrowser();
     }
 
     @AfterSuite
@@ -128,34 +126,42 @@ public abstract class BaseTest {
             autoReportService = AutoReportImpl.createInstance(ConfUtils.getConf(this.environment));
         }
         String sql = "UPDATE test_case SET " + "start_time = '" + testStartTime + "', end_time = '" + testEndTime
-                + "', test_result = " + testResult + ", test_log = '" + logToDB + "', environment = '"
-                + this.environment + "' WHERE test_runid = " + this.runID + " and case_name = '" + this.testName
-                + "' and scenario = '" + this.scenario + "'";
-        autoReportService.update(sql);
+                + "', test_result = " + testResult + ", test_log = ?, environment = '" + this.environment
+                + "' WHERE test_runid = " + this.runID + " and case_name = '" + this.testName + "' and scenario = '"
+                + this.scenario + "'";
+        autoReportService.update(sql, logToDB);
     }
 
-    protected void allTestStep(ITestContext context) {
+    protected void allTestStep(ITestContext context) throws Exception {
         // Set UniqueTestKey to ITestResult.
         Reporter.getCurrentTestResult().setAttribute(ConfUtils.getUniqueTestKey(), testName + "-" + scenario);
         logger.info("Start to run test: " + testName + " - " + scenario);
-        logger.info("onPreCondition");
-        if (onPreCondition().failed()) {
-            onError(context);
+        try {
+            logger.info("onPreCondition");
+            if (onPreCondition().failed()) {
+                logger.error("TEST SKIPPED");
+                throw new SkipException("PRECONDITION FAILURE");
+            }
+            logger.info("onTest");
+            if (onTest().failed()) {
+                logger.error("TEST FAILED");
+                throw new InterruptedException("TEST FAILURE");
+            }
+            logger.info("onPostCondition");
+            if (onPostCondition().failed()) {
+                logger.warn("CLEAN UP FAILED");
+            }
+        } catch (SkipException e) {
             this.testResult = Result.SKIP.val();
-            throw new SkipException("PRECONDITION FAILURE");
-        }
-        logger.info("onTest");
-        if (onTest().failed()) {
+            handleException(e);
+            return;
+        } catch (Exception e) {
             this.testResult = Result.FAIL.val();
-            logger.error("TEST FAILED");
-            onError(context);
+            handleException(e);
             return;
         }
-        logger.info("onPostCondition");
-        if (onPostCondition().failed()) {
-            logger.warn("onPostCondition FAILED");
-        }
         logger.info("TEST PASSED");
+        closeBrowser();
         this.testResult = Result.PASS.val();
     }
 
@@ -166,8 +172,18 @@ public abstract class BaseTest {
             logger.info("ScreenShot PictureId is " + pictureId);
         }
         closeBrowser();
-        Assert.fail("onError - Trigger Rerun");
     };
+
+    protected void handleException(Exception e) throws Exception {
+        logger.info("Handle Exception");
+        logger.error("Exception occur.", e);
+        if (driver != null) {
+            pictureId = ScreenShot.takeScreenShot(driver, testStartTime);
+            logger.info("ScreenShot PictureId is " + pictureId);
+        }
+        closeBrowser();
+        throw e;
+    }
 
     protected void closeBrowser() {
         if (driver != null) {
