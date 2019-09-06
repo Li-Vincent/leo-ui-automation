@@ -11,9 +11,9 @@ public class JIRA_1 {
         return new Object[][] {
             // @formatter:off
             { "default1","pass" },
-            { "default2","skip" },
-            { "default3","fail" },
-            { "default4","exception" }
+//            { "default2","skip" },
+//            { "default3","fail" },
+//            { "default4","exception" }
             // @formatter:off
         };
     }

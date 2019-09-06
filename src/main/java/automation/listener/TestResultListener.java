@@ -11,7 +11,6 @@ import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
 import automation.utils.ConfUtils;
-import automation.utils.ReportLogger;
 
 public class TestResultListener extends TestListenerAdapter {
 

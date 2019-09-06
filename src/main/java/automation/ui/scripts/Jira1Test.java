@@ -8,6 +8,9 @@ import org.testng.annotations.Test;
 import automation.ui.base.BaseTest;
 import automation.ui.base.Result;
 import automation.ui.common.UIController;
+import automation.ui.pages.BasePage;
+import automation.ui.pages.DemoPage;
+import jxl.demo.Demo;
 
 public class Jira1Test extends BaseTest {
     String testString = "";
@@ -35,7 +38,8 @@ public class Jira1Test extends BaseTest {
     protected Result onTest() {
         driver.get("https://ssl.zc.qq.com/v3/index-chs.html");
 
-        WebElement terms = driver.findElement(By.id("agree"));
+        DemoPage demoPage = new DemoPage(driver);
+        WebElement terms = demoPage.termsElement;
         WebElement submit = null;
         if (testString == "exception") {
             submit = driver.findElement(By.id("get_acc" + testString));

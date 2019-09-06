@@ -7,7 +7,6 @@ import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
 import automation.utils.ConfUtils;
-import automation.utils.ReportLogger;
 
 /**
  * Customize RetryAnalyzer

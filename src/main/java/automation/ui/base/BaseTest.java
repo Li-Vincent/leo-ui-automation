@@ -17,11 +17,11 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
+import automation.listener.ReportLogger;
 import automation.report.dao.AutoReportDao;
 import automation.report.dao.AutoReportImpl;
 import automation.ui.common.ScreenShot;
 import automation.utils.ConfUtils;
-import automation.utils.ReportLogger;
 
 public abstract class BaseTest {
     private ReportLogger logger = new ReportLogger(BaseTest.class);

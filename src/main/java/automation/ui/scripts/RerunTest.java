@@ -3,9 +3,9 @@ package automation.ui.scripts;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
+import automation.listener.ReportLogger;
 import automation.ui.base.BaseTest;
 import automation.ui.base.Result;
-import automation.utils.ReportLogger;
 
 public class RerunTest extends BaseTest {
     private ReportLogger logger = new ReportLogger(RerunTest.class);

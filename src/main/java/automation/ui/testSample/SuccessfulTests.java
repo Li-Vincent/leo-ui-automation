@@ -20,7 +20,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Test;
 
-import automation.utils.ReportLogger;
+import automation.listener.ReportLogger;
 
 /**
  * Some successful tests to be included in the sample output.

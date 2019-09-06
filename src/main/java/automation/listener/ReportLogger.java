@@ -1,4 +1,4 @@
-package automation.utils;
+package automation.listener;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -10,6 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.testng.Reporter;
+
+import automation.utils.ConfUtils;
 
 public class ReportLogger {
     public static Map<String, String> logToDBMap = new ConcurrentHashMap<String, String>();
