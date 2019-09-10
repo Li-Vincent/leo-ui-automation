@@ -26,6 +26,8 @@
 				<includes>
 					<include>*.xml</include>
 					<include>*.properties</include>
+					<include>*.xlsx</include>
+					<include>*.xls</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>
@@ -111,16 +113,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.8</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.15</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.15</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -212,6 +204,20 @@
 			<groupId>net.sourceforge.htmlunit</groupId>
 			<artifactId>htmlunit</artifactId>
 			<version>2.32</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>easyexcel</artifactId>
+			<version>2.0.0-beta5</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.javacsv/javacsv -->
+		<dependency>
+			<groupId>net.sourceforge.javacsv</groupId>
+			<artifactId>javacsv</artifactId>
+			<version>2.0</version>
 		</dependency>
 	</dependencies>
 </project>

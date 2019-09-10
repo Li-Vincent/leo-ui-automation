@@ -5,19 +5,18 @@ import org.openqa.selenium.WebElement;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
+import automation.datas.excelmodel.SampleDataModel;
 import automation.ui.base.BaseTest;
 import automation.ui.base.Result;
 import automation.ui.common.UIController;
-import automation.ui.pages.BasePage;
 import automation.ui.pages.DemoPage;
-import jxl.demo.Demo;
 
 public class Jira1Test extends BaseTest {
-    String testString = "";
+    String name = "";
 
-    public Jira1Test(String scenario, String t) {
-        super("JIRA_1", scenario);
-        testString = t;
+    public Jira1Test(String testName, String scenario, SampleDataModel data) {
+        super(testName, scenario);
+        name = data.getName();
     }
 
     @Test(enabled = true, alwaysRun = true)
@@ -28,7 +27,7 @@ public class Jira1Test extends BaseTest {
     @Override
     protected Result onPreCondition() {
         prepareTest();
-        if (testString == "skip") {
+        if (name.equals("name2")) {
             return Result.SKIP;
         }
         return Result.PASS;
@@ -41,8 +40,8 @@ public class Jira1Test extends BaseTest {
         DemoPage demoPage = new DemoPage(driver);
         WebElement terms = demoPage.termsElement;
         WebElement submit = null;
-        if (testString == "exception") {
-            submit = driver.findElement(By.id("get_acc" + testString));
+        if (name.equals("name3")) {
+            submit = driver.findElement(By.id("get_acc" + name));
         } else {
             submit = driver.findElement(By.id("get_acc"));
         }
@@ -54,7 +53,7 @@ public class Jira1Test extends BaseTest {
         System.out.println(firstElement.getText());
         System.out.println(((WebElement) UIController.getNextElement(driver, firstElement)).getText());
         System.out.println(((WebElement) UIController.getNextElement(driver, firstElement, "div", "div", 2)).getText());
-        if (testString == "fail") {
+        if (name.equals("name4")) {
             return Result.FAIL;
         }
         return Result.PASS;
