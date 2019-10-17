@@ -1,6 +1,7 @@
 #eclipse files
 .classpath
 .project
+.idea
 /.settings/
 
 # Java class files

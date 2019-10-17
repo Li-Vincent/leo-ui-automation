@@ -1,15 +1,14 @@
 package automation.ui.scripts;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.ITestContext;
-import org.testng.annotations.Test;
-
 import automation.datas.excelmodel.SampleDataModel;
 import automation.ui.base.BaseTest;
 import automation.ui.base.Result;
 import automation.ui.common.UIController;
 import automation.ui.pages.DemoPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.ITestContext;
+import org.testng.annotations.Test;
 
 public class Jira1Test extends BaseTest {
     String name = "";

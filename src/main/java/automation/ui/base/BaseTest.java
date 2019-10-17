@@ -1,9 +1,10 @@
 package automation.ui.base;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
+import automation.listener.ReportLogger;
+import automation.report.dao.AutoReportDao;
+import automation.report.dao.AutoReportImpl;
+import automation.ui.common.ScreenShot;
+import automation.utils.ConfUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,11 +18,9 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
-import automation.listener.ReportLogger;
-import automation.report.dao.AutoReportDao;
-import automation.report.dao.AutoReportImpl;
-import automation.ui.common.ScreenShot;
-import automation.utils.ConfUtils;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public abstract class BaseTest {
     private ReportLogger logger = new ReportLogger(BaseTest.class);
@@ -76,21 +75,21 @@ public abstract class BaseTest {
         }
         if (browser != "") {
             switch (browser.toLowerCase()) {
-            case "chrome":
-                System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chromedriver.exe");
-                driver = new ChromeDriver();
-                break;
-            case "firefox":
-                System.setProperty("webdriver.gecko.driver", "src/main/resources/driver/geckodriver.exe");
-                driver = new FirefoxDriver();
-                break;
-            case "ie11":
-                System.setProperty("webdriver.ie.driver", "src/main/resources/driver/IEDriverServer.exe");
-                driver = new InternetExplorerDriver();
-                break;
-            default:
-                System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chromedriver.exe");
-                driver = new ChromeDriver();
+                case "chrome":
+                    System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chromedriver.exe");
+                    driver = new ChromeDriver();
+                    break;
+                case "firefox":
+                    System.setProperty("webdriver.gecko.driver", "src/main/resources/driver/geckodriver.exe");
+                    driver = new FirefoxDriver();
+                    break;
+                case "ie11":
+                    System.setProperty("webdriver.ie.driver", "src/main/resources/driver/IEDriverServer.exe");
+                    driver = new InternetExplorerDriver();
+                    break;
+                default:
+                    System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chromedriver.exe");
+                    driver = new ChromeDriver();
             }
         }
         driver.manage().timeouts().pageLoadTimeout(ConfUtils.getDefaultPageTimeout(), TimeUnit.SECONDS);
@@ -172,7 +171,9 @@ public abstract class BaseTest {
             logger.info("ScreenShot PictureId is " + pictureId);
         }
         closeBrowser();
-    };
+    }
+
+    ;
 
     protected void handleException(Exception e) throws Exception {
         logger.info("Handle Exception");
