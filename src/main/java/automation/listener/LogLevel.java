@@ -2,11 +2,11 @@ package automation.listener;
 
 /**
  * Report Verbose Level
- * 
+ *
  * @author Vincent-Li
  */
 public enum LogLevel {
- // @formatter:off
+    // @formatter:off
     FATAL(1),
     ERROR(2),
     WARN(3),

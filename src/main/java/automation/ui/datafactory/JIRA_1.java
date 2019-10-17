@@ -12,13 +12,13 @@ public class JIRA_1 {
     @DataProvider(name = "jira1")
     public static Object[][] data1() {
         Map<String, SampleDataModel> datas = SampleDataModel.read("datas/testSample.xlsx");
-        return new Object[][] {
-            // @formatter:off
-            { "JIRA_1","default1",datas.get("JIRA_1"+"default1") },
-            { "JIRA_1","default2",datas.get("JIRA_1"+"default2") },
-            { "JIRA_1","default3",datas.get("JIRA_1"+"default3") },
-            { "JIRA_1","default4",datas.get("JIRA_1"+"default4") },
-            // @formatter:off
+        return new Object[][]{
+                // @formatter:off
+                {"JIRA_1", "default1", datas.get("JIRA_1" + "default1")},
+                {"JIRA_1", "default2", datas.get("JIRA_1" + "default2")},
+                {"JIRA_1", "default3", datas.get("JIRA_1" + "default3")},
+                {"JIRA_1", "default4", datas.get("JIRA_1" + "default4")},
+                // @formatter:off
         };
     }
 

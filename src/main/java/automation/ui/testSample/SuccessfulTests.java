@@ -24,7 +24,7 @@ import automation.listener.ReportLogger;
 
 /**
  * Some successful tests to be included in the sample output.
- * 
+ *
  * @author Daniel Dyer
  */
 public class SuccessfulTests {

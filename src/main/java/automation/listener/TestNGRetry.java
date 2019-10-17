@@ -10,7 +10,7 @@ import automation.utils.ConfUtils;
 
 /**
  * Customize RetryAnalyzer
- * 
+ *
  * @author Vincent-Li
  */
 public class TestNGRetry implements IRetryAnalyzer {

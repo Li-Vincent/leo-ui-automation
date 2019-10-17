@@ -61,7 +61,7 @@ public class TestResultListener extends TestListenerAdapter {
         // finally delete all tests that are recorded
         // delete skipped tests
         for (Iterator<ITestResult> iterator = testContext.getSkippedTests().getAllResults().iterator(); iterator
-                .hasNext();) {
+                .hasNext(); ) {
             ITestResult testResult = iterator.next();
             if (testsToBeRemoved.contains(testResult)) {
                 logger.logNotToDB("Remove repeat Skip Test: " + testResult.getAttribute(ConfUtils.getUniqueTestKey()));
@@ -70,7 +70,7 @@ public class TestResultListener extends TestListenerAdapter {
         }
         // delete failed tests
         for (Iterator<ITestResult> iterator = testContext.getFailedTests().getAllResults().iterator(); iterator
-                .hasNext();) {
+                .hasNext(); ) {
             ITestResult testResult = iterator.next();
             if (testsToBeRemoved.contains(testResult)) {
                 logger.logNotToDB("Remove repeat Fail Test: " + testResult.getAttribute(ConfUtils.getUniqueTestKey()));

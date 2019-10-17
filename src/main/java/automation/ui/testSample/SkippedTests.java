@@ -20,21 +20,19 @@ import org.testng.annotations.Test;
 /**
  * These tests are skipped because they depend on failed tests in
  * another class.
+ *
  * @author Daniel Dyer
  */
 @Test(groups = "should-skip")
-public class SkippedTests
-{
+public class SkippedTests {
     @Test(dependsOnGroups = "should-fail")
-    public void skippedDueToDependentGroup()
-    {
+    public void skippedDueToDependentGroup() {
         assert false : "This method is supposed to be skipped.";
     }
 
 
     @Test(dependsOnMethods = "skippedDueToDependentGroup")
-    public void skippedDueToDependentMethod()
-    {
+    public void skippedDueToDependentMethod() {
         assert false : "This method is supposed to be skipped.";
     }
 }

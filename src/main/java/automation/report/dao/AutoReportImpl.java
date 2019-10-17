@@ -42,7 +42,7 @@ public class AutoReportImpl implements AutoReportDao {
     @Override
     public List<String> getCaseList() {
         List<String> caseList = new ArrayList<String>();
-        List<?> rows = jdbcTemplate.queryForList("select case_name from test_case", new Object[] {});
+        List<?> rows = jdbcTemplate.queryForList("select case_name from test_case", new Object[]{});
         if (rows.size() > 0)
             for (int i = 0; i < rows.size(); i++) {
                 caseList.add(rows.get(i).toString());
@@ -67,7 +67,7 @@ public class AutoReportImpl implements AutoReportDao {
 
     @Override
     public void update(String sql, String log) {
-        jdbcTemplate.update(sql, new Object[] { log }, new int[] { java.sql.Types.VARCHAR });
+        jdbcTemplate.update(sql, new Object[]{log}, new int[]{java.sql.Types.VARCHAR});
     }
 
     @Override
@@ -75,8 +75,8 @@ public class AutoReportImpl implements AutoReportDao {
         boolean flag = false;
         try {
             String insertPicture = "INSERT INTO screenshot_db (`picture_id`, `picture_long`, `url`, `create_time`) VALUES (?,?,?,?);";
-            jdbcTemplate.update(insertPicture, new Object[] { pic_id, in, url, createTime }, new int[] {
-                    java.sql.Types.VARCHAR, java.sql.Types.BLOB, java.sql.Types.VARCHAR, java.sql.Types.VARCHAR });
+            jdbcTemplate.update(insertPicture, new Object[]{pic_id, in, url, createTime}, new int[]{
+                    java.sql.Types.VARCHAR, java.sql.Types.BLOB, java.sql.Types.VARCHAR, java.sql.Types.VARCHAR});
         } catch (DataAccessException e) {
             flag = true;
             e.printStackTrace();

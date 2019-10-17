@@ -20,17 +20,16 @@ import org.testng.annotations.Test;
 /**
  * A configuration failure for testing that the report correctly reports
  * configuration failures.
+ *
  * @author Daniel Dyer
  */
-public class FailedConfiguration
-{
+public class FailedConfiguration {
     /**
      * A configuration method that will fail causing any test cases
      * in this class to be skipped.
      */
     @BeforeClass
-    public void configure()
-    {
+    public void configure() {
         throw new RuntimeException("Configuration failed.");
     }
 
@@ -39,8 +38,7 @@ public class FailedConfiguration
      * class will fail.
      */
     @Test
-    public void thisShouldBeSkipped()
-    {
+    public void thisShouldBeSkipped() {
         assert false : "This method is supposed to be skipped.";
     }
 }

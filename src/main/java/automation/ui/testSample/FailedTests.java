@@ -21,7 +21,7 @@ import automation.listener.ReportLogger;
 
 /**
  * Some test failures to be included in the sample output.
- * 
+ *
  * @author Daniel Dyer
  */
 @Test(groups = "should-fail")

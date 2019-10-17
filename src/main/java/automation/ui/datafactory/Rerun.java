@@ -8,12 +8,12 @@ import automation.ui.scripts.RerunTest;
 public class Rerun {
     @DataProvider(name = "rerun")
     public static Object[][] data1() {
-        return new Object[][] {
-            // @formatter:off
-            { "default1" },
-            { "default2" },
-            { "default3" }
-            // @formatter:off
+        return new Object[][]{
+                // @formatter:off
+                {"default1"},
+                {"default2"},
+                {"default3"}
+                // @formatter:off
         };
     }
 

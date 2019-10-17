@@ -88,7 +88,7 @@ public class UIController {
     }
 
     public static SearchContext getNextElement(WebDriver driver, SearchContext element, String tag, String nextTag,
-            int count) {
+                                               int count) {
         return element.findElement(By.xpath("following-sibling::" + nextTag + "[" + count + "]"));
     }
 
@@ -97,7 +97,7 @@ public class UIController {
     }
 
     public static SearchContext getPreviousElement(WebDriver driver, SearchContext element, String tag, String preTag,
-            int count) {
+                                                   int count) {
         return element.findElement(By.xpath(tag + "/preceding-sibling::" + preTag + "[" + count + "]"));
     }
 
@@ -131,7 +131,7 @@ public class UIController {
 
     /**
      * waitElementClickable
-     * 
+     *
      * @author Vincent-Li
      */
     public static void waitElementClickable(WebDriver driver, WebElement element, int timeoutInSeconds)
@@ -141,7 +141,7 @@ public class UIController {
 
     /**
      * waitElementVisible
-     * 
+     *
      * @author Vincent-Li
      */
     public static void waitElementVisible(WebDriver driver, WebElement element) throws InterruptedException {
