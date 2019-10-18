@@ -1,12 +1,11 @@
 package automation.ui.datafactory;
 
-import java.util.Map;
-
+import automation.datas.excelmodel.SampleDataModel;
+import automation.ui.scripts.Jira1Test;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 
-import automation.datas.excelmodel.SampleDataModel;
-import automation.ui.scripts.Jira1Test;
+import java.util.Map;
 
 public class JIRA_1 {
     @DataProvider(name = "jira1")

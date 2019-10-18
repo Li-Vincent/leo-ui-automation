@@ -1,12 +1,11 @@
 package automation.listener;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import automation.utils.ConfUtils;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
-import automation.utils.ConfUtils;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Customize RetryAnalyzer

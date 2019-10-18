@@ -1,9 +1,8 @@
 package automation.ui.datafactory;
 
+import automation.ui.scripts.RerunTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
-
-import automation.ui.scripts.RerunTest;
 
 public class Rerun {
     @DataProvider(name = "rerun")

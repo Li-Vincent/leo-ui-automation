@@ -15,9 +15,8 @@
 // =============================================================================
 package automation.ui.testSample;
 
-import org.testng.annotations.Test;
-
 import automation.listener.ReportLogger;
+import org.testng.annotations.Test;
 
 /**
  * Some test failures to be included in the sample output.

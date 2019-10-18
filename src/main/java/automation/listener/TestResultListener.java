@@ -1,16 +1,11 @@
 package automation.listener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
+import automation.utils.ConfUtils;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
-import automation.utils.ConfUtils;
+import java.util.*;
 
 public class TestResultListener extends TestListenerAdapter {
 
