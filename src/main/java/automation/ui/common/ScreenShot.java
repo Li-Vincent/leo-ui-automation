@@ -1,20 +1,19 @@
 package automation.ui.common;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-
+import automation.report.dao.AutoReportDao;
+import automation.report.dao.AutoReportImpl;
+import automation.utils.ConfUtils;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.Reporter;
 
-import automation.report.dao.AutoReportDao;
-import automation.report.dao.AutoReportImpl;
-import automation.utils.ConfUtils;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 
 public class ScreenShot {
     private static AutoReportDao autoReportService;

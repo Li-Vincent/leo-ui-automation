@@ -1,21 +1,13 @@
 package automation.ui.common;
 
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.NoSuchWindowException;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import automation.utils.ConfUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import automation.utils.ConfUtils;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class UIController {
 

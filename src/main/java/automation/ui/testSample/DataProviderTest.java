@@ -15,11 +15,11 @@
 //=============================================================================
 package automation.ui.testSample;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * An example of using a TestNG DataProviderTest.  This used in the sample

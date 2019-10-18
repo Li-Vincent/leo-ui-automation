@@ -1,9 +1,9 @@
 package automation.utils;
 
-import java.util.Properties;
-
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+
+import java.util.Properties;
 
 public class ConfUtils {
 
